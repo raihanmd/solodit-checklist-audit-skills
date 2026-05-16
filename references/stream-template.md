@@ -30,7 +30,8 @@ For EACH checklist item in your stream:
 - Do NOT skip checklist items that seem "obviously safe" - verify with code evidence
 
 ## CONTEXT
-- Full source code is at: [project-root]/.solodit-audit-data/source.md
+- Full source code is at: {source_path}
+- Write your results to: {results_path}stream-{stream_id}.md
 
 ## YOUR CHECKLIST ITEMS
-{Read from [project-root]/.solodit-audit-data/stream-{stream_id}.md}
+{checklist_items}

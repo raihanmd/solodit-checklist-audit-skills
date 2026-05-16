@@ -32,10 +32,28 @@ cd ~/solodit-mcp && npm install
 
 ### Option 1: npx skills (Recommended)
 
-Works with Claude Code, Cursor, Codex, OpenCode, Windsurf, and 50+ other agents:
+Works with Claude Code, Cursor, Codex, OpenCode, Windsurf, and 50+ other agents.
 
+> **Note:** Parallel wave execution (up to 8 agents at once) requires OpenCode. On Claude Code, Cursor, Windsurf, and Codex, the skill runs sequentially - all 370 checklist items are still covered.
+
+Preview skills before installing:
+```bash
+npx skills add raihanmd/solodit-checklist-audit-skills --list
+```
+
+Install:
 ```bash
 npx skills add raihanmd/solodit-checklist-audit-skills
+```
+
+For global install (available in all projects):
+```bash
+npx skills add raihanmd/solodit-checklist-audit-skills -g
+```
+
+To target specific agents:
+```bash
+npx skills add raihanmd/solodit-checklist-audit-skills -a claude-code -a cursor
 ```
 
 For global install (available in all projects):
@@ -55,9 +73,28 @@ npx skills add raihanmd/solodit-checklist-audit-skills -a claude-code -a cursor
 Copy-paste the command for your AI assistant. Each agent has its own skill directory:
 
 **Claude Code**
-
 ```bash
 mkdir -p ~/.claude/skills/solodit-checklist-audit && curl -sL https://github.com/raihanmd/solodit-checklist-audit-skills/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 -C ~/.claude/skills/solodit-checklist-audit
+```
+
+**Cursor**
+```bash
+mkdir -p ~/.cursor/skills/solodit-checklist-audit && curl -sL https://github.com/raihanmd/solodit-checklist-audit-skills/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 -C ~/.cursor/skills/solodit-checklist-audit
+```
+
+**Codex CLI**
+```bash
+mkdir -p ~/.codex/skills/solodit-checklist-audit && curl -sL https://github.com/raihanmd/solodit-checklist-audit-skills/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 -C ~/.codex/skills/solodit-checklist-audit
+```
+
+**OpenCode**
+```bash
+mkdir -p ~/.config/opencode/skills/solodit-checklist-audit && curl -sL https://github.com/raihanmd/solodit-checklist-audit-skills/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 -C ~/.config/opencode/skills/solodit-checklist-audit
+```
+
+**Windsurf**
+```bash
+mkdir -p ~/.codeium/windsurf/skills/solodit-checklist-audit && curl -sL https://github.com/raihanmd/solodit-checklist-audit-skills/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 -C ~/.codeium/windsurf/skills/solodit-checklist-audit
 ```
 
 **Cursor**

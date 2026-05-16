@@ -20,11 +20,11 @@ Going through 370 checklist items manually takes time. This skill speeds it up b
 - **Resumable** - progress is tracked in `.solodit-audit-data/`, so if the agent crashes or restarts, it picks up where it left off
 - **Traceable output** - every finding maps back to specific checklist IDs, so you know exactly what was checked and what was found
 
-**Best practice:** Use this alongside [Solodit MCP](https://github.com/raihanmd/solodit-mcp) for interactive finding searches during the audit. The MCP server lets you query Solodit's 50,000+ real-world findings to enrich your audit with historical context.
+**Best practice:** Use this alongside [Solodit MCP](https://github.com/zerotrust-labs/solodit-mcp) for interactive finding searches during the audit. The MCP server lets you query Solodit's 50,000+ real-world findings to enrich your audit with historical context.
 
 ```bash
 # Install Solodit MCP (recommended companion)
-git clone https://github.com/raihanmd/solodit-mcp.git ~/solodit-mcp
+git clone https://github.com/zerotrust-labs/solodit-mcp.git ~/solodit-mcp
 cd ~/solodit-mcp && npm install
 ```
 

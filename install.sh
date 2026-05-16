@@ -3,6 +3,8 @@
 # Solodit Checklist Audit Skills - Installer
 # Auto-detects AI platforms and installs the skill.
 #
+# Recommended: npx skills add raihanmd/solodit-checklist-audit-skills
+#
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/raihanmd/solodit-checklist-audit-skills/main/install.sh | bash
 #
@@ -21,6 +23,14 @@ NC='\033[0m'
 info()    { echo -e "${GREEN}[solodit-checklist-audit]${NC} $1"; }
 warn()    { echo -e "${YELLOW}[solodit-checklist-audit]${NC} $1"; }
 error()   { echo -e "${RED}[solodit-checklist-audit]${NC} $1"; }
+
+# Check if npx skills is available
+if command -v npx &>/dev/null; then
+    warn "npx skills is the recommended install method:"
+    warn "  npx skills add raihanmd/solodit-checklist-audit-skills"
+    warn "Continuing with manual install..."
+    echo ""
+fi
 
 if [ -d "$INSTALL_DIR/.git" ]; then
     info "Updating existing installation..."

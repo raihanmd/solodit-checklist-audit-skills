@@ -12,6 +12,7 @@ You are the orchestrator of a **continuous, checklist-driven smart contract secu
 This skill evaluates every checklist item against the codebase - each attack vector, baseline check, and integration-specific item is systematically reviewed.
 
 **Skill directory:** `$SKILL_DIR` is the directory containing this SKILL.md file. Find it by searching for this file's location:
+
 - OpenCode: `~/.config/opencode/skills/solodit-checklist-audit/`
 - Claude Code: `~/.claude/skills/solodit-checklist-audit/`
 - Cursor: `~/.cursor/skills/solodit-checklist-audit/`
@@ -43,12 +44,12 @@ Print the banner, then make these parallel tool calls in one message:
 
 ```
 
- ███████╗██████╗ ███████╗
-██╔════╝██╔══██╗██╔════╝
-███████╗██████╔╝█████╗
-╚════██║██╔═══╝ ██╔══╝
-███████║██║     ███████╗
-╚══════╝╚═╝     ╚══════╝
+███████╗ ██████╗ █████╗
+██╔════╝██╔════╝██╔══██╗
+███████╗██║     ███████║
+╚════██║██║     ██╔══██║
+███████║╚██████╗██║  ██║
+╚══════╝ ╚═════╝╚═╝  ╚═╝
 
   S O L O D I T   C H E C K L I S T   A U D I T
 
@@ -56,19 +57,21 @@ Print the banner, then make these parallel tool calls in one message:
 
 a. Bash `find` for in-scope `.sol` files per mode selection
 b. **Checklist fetch (online-first with offline fallback):**
-   - Bash `curl -sfL --connect-timeout 10 --max-time 30 https://raw.githubusercontent.com/Cyfrin/audit-checklist/main/checklist.json`
-   - If fetch succeeds: use the remote JSON
-   - If fetch fails: read `$SKILL_DIR/references/checklist.json` (bundled 370 items)
-   - If both fail: abort with `Cannot fetch Solodit checklist. Check internet connection or reinstall the skill.`
-c. Bash `mkdir -p [project-root]/.solodit-audit-data`
-d. Read project documentation if available (README.md, docs/, or similar)
-e. Bash `find` for any existing audit reports or security docs (`.md` files mentioning "audit", "security", "finding", "vulnerability")
+
+- Bash `curl -sfL --connect-timeout 10 --max-time 30 https://raw.githubusercontent.com/Cyfrin/audit-checklist/main/checklist.json`
+- If fetch succeeds: use the remote JSON
+- If fetch fails: read `$SKILL_DIR/references/checklist.json` (bundled 370 items)
+- If both fail: abort with `Cannot fetch Solodit checklist. Check internet connection or reinstall the skill.`
+  c. Bash `mkdir -p [project-root]/.solodit-audit-data`
+  d. Read project documentation if available (README.md, docs/, or similar)
+  e. Bash `find` for any existing audit reports or security docs (`.md` files mentioning "audit", "security", "finding", "vulnerability")
 
 If the remote checklist fetch succeeds, count total items (sum all `data[].length` across categories) and compare with the bundled version. If they differ, print a note: `Using remote checklist ({N} items). Bundled version has {M} items - consider reinstalling to refresh.`
 
 ### Turn 2 - Parse, Group & Build Progress Tracker
 
 Parse the checklist JSON. The Cyfrin format is:
+
 ```json
 [
   {
@@ -116,6 +119,7 @@ Each item has: `id`, `question`, `description`, `remediation`, `references` (arr
 **Build source bundle:** Write ALL in-scope `.sol` files to `[project-root]/.solodit-audit-data/source.md` with `### path` headers and fenced code blocks.
 
 **Build stream instruction files:** For each stream, write `[project-root]/.solodit-audit-data/stream-{stream_id}.md` containing:
+
 - The stream's checklist items with full question, description, remediation, and references
 - The absolute path to source.md (e.g., `/home/user/project/.solodit-audit-data/source.md`)
 - The absolute path to the results directory (e.g., `/home/user/project/.solodit-audit-data/results/`)
@@ -123,6 +127,7 @@ Each item has: `id`, `question`, `description`, `remediation`, `references` (arr
 Print: `Parsed {N} checklist items into {M} audit streams. Progress tracker: .solodit-audit-data/progress.json`
 
 **Priority assignment:**
+
 - `high`: Attacker's Mindset, DeFi, Token (ERC20), External Call items
 - `medium`: Basics (Access Control, Math, Payment, Function), Integrations items
 - `low`: Basics (Event, Inheritance, Type, Version), Heuristics items
@@ -136,6 +141,7 @@ Read `progress.json`. Select up to 8 streams with `status: "pending"` and highes
 **If running on other agents (Claude Code, Cursor, Codex, Windsurf):** Process streams sequentially - one at a time. Read the stream file, audit inline, then move to the next stream. No background spawning.
 
 **Agent prompt:** Read `$SKILL_DIR/references/stream-template.md` and substitute all placeholders:
+
 - `{stream_id}` - the stream's ID
 - `{source_path}` - absolute path to source.md
 - `{results_path}` - absolute path to results directory
@@ -150,6 +156,7 @@ Store each agent's `session_id` for follow-up (OpenCode only).
 **This is the critical loop. Do NOT ask the user for permission between waves. Continue automatically.**
 
 **If running on OpenCode:**
+
 1. Collect results from all background agents via `background_output(task_id="...")`.
 2. For each completed agent:
    - Write results to `[project-root]/.solodit-audit-data/results/stream-{stream_id}.md`
